@@ -26,10 +26,82 @@ public class ConsumerTest implements Runnable {
 			System.out.println("Message " + messageNum + ": " + msg);
 
 			if (msg.equals("sleep")) {
-				try {
-					Process proc=Runtime.getRuntime().exec("pmset sleepnow");
+				if (System.getProperty("os.name").equals("Mac OS X")) {
+					try {
+						Runtime.getRuntime().exec("pmset sleepnow");
+					}
+					catch(IOException e) {
+						e.printStackTrace();
+					}
 				}
-				catch(IOException e) {
+				
+				else {
+					try {
+						Runtime.getRuntime().exec("psshutdown -d -t 0");
+					}
+					catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			
+			else if (msg.equals("screenoff")) {
+				if (System.getProperty("os.name").equals("Mac OS X")) {
+					try {
+						Runtime.getRuntime().exec("pmset displaysleepnow");
+					}
+					catch(IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				else {
+					try {
+						Runtime.getRuntime().exec("nircmd monitor off"); //FIX NIRCMD PATH
+					}
+					catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			
+			else if (msg.equals("lock")) {
+				if (System.getProperty("os.name").equals("Mac OS X")) {
+					try {
+						Runtime.getRuntime().exec("pmset displaysleepnow");
+					}
+					catch(IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				else {
+					try {
+						Runtime.getRuntime().exec("psshutdown -l -t 0");
+					}
+					catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			
+			else if (msg.equals("shutdown")) {
+				if (System.getProperty("os.name").equals("Mac OS X")) {
+					try {
+						Runtime.getRuntime().exec("pmset sleepnow");
+					}
+					catch(IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				else {
+					try {
+						Runtime.getRuntime().exec("psshutdown -k -t 0");
+					}
+					catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 			messageNum++;
